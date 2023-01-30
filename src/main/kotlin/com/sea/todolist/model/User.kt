@@ -19,6 +19,4 @@ class User {
     @get: Email(message = "{email.invalid}")
     @get: NotBlank(message = "{email.required}")
     var email : String = "email@email.com"
-    @Lob
-    var photo: ByteArray? = null
 }
