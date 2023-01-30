@@ -14,28 +14,13 @@ import java.io.IOException
 class UserService(private val userRepository: UserRepository) {
 
     @Throws(CustomMessageException::class)
-    fun save(user: User, photo: Part?) : User {
+    fun save(user: User) : User {
         val exists : Boolean = userRepository.existsByName(user.name)
 
         if(exists) {
             throw CustomMessageException("O Usuário ${ user.name } Já Foi Cadastrado!")
         } else {
-            if(photo != null) {
-                try {
-                    val userSaved = userRepository.save(user)
-                    val inputStream = photo.inputStream
-                    val bytes = ByteArray(photo.size.toInt())
-
-                    IOUtils.readFully(inputStream, bytes)
-                    userSaved.photo = bytes
-
-                    return userRepository.save(userSaved)
-                } catch (e: IOException) {
-                    throw CustomMessageException("Não Foi Possível Salvar a Imagem de Usuário")
-                }
-            } else {
-                return userRepository.save(user)
-            }
+            return userRepository.save(user)
         }
     }
 

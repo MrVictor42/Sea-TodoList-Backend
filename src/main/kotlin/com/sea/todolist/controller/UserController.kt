@@ -13,10 +13,10 @@ import java.net.URI
 @RequestMapping("/user")
 class UserController(private val userService: UserService) {
     @PostMapping("/save")
-    fun save(@Valid @RequestBody user : User, @RequestParam("photo") avatar: Part?) : ResponseEntity<User> {
+    fun save(@Valid @RequestBody user : User) : ResponseEntity<User> {
         return try {
             val uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/save").toUriString())
-            ResponseEntity.created(uri).body(userService.save(user, avatar))
+            ResponseEntity.created(uri).body(userService.save(user))
         } catch (runtime : RuntimeException) {
             ResponseEntity.badRequest().body(null)
         }
