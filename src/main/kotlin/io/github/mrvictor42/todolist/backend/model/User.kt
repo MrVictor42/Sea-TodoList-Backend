@@ -13,11 +13,11 @@ class User {
     val userId : Long = 0
     @Column(nullable = false, unique = true)
     @get: NotEmpty(message = "{username.required}")
-    val username : String = ""
+    var username : String = ""
     @Column(nullable = false)
     @get: NotEmpty(message = "{password.required}")
     @get: Length(min = 6, message = "{password.shortLength}")
-    val password : String = ""
+    var password : String = ""
     @Column(nullable = false)
     @get: NotEmpty(message = "{name.required}")
     @get: Length(min = 3, message = "{name.shortLength}")
@@ -25,6 +25,6 @@ class User {
     @Column(nullable = false, unique = true)
     @get: Email(message = "{email.invalid}")
     @get: NotBlank(message = "{email.required}")
-    val email : String = ""
+    var email : String = ""
     var role : String? = null
 }

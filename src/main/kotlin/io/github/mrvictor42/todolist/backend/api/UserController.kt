@@ -2,7 +2,6 @@ package io.github.mrvictor42.todolist.backend.api
 
 import io.github.mrvictor42.todolist.backend.model.User
 import io.github.mrvictor42.todolist.backend.services.UserService
-import lombok.RequiredArgsConstructor
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder
@@ -28,10 +27,10 @@ class UserController(private val userService : UserService) {
         return ResponseEntity.ok().body(userService.userList())
     }
 
-    @GetMapping("/current_user/{userId}")
-    fun getCurrentUser(@PathVariable userId : Long) : ResponseEntity<User> {
+    @GetMapping("/current_user")
+    fun getCurrentUser(@RequestParam("username") username : String) : ResponseEntity<User> {
         return try {
-            ResponseEntity.ok().body(userService.getCurrentUser(userId))
+            ResponseEntity.ok().body(userService.getCurrentUser(username))
         } catch (runtime : RuntimeException) {
             ResponseEntity.badRequest().body(null)
         }

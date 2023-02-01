@@ -15,14 +15,19 @@ class WebConfig {
     fun corsFilterFilterRegistrationBean(): FilterRegistrationBean<CorsFilter>? {
         val all = listOf("*")
         val corsConfiguration = CorsConfiguration()
+
         corsConfiguration.allowedOrigins = listOf("http://localhost:4200/")
         corsConfiguration.allowedHeaders = all
         corsConfiguration.allowedMethods = all
         corsConfiguration.allowCredentials = true
+
         val source = UrlBasedCorsConfigurationSource()
+
         source.registerCorsConfiguration("/**", corsConfiguration)
+
         val corsFilter = CorsFilter(source)
         val filter = FilterRegistrationBean(corsFilter)
+
         filter.order = Ordered.HIGHEST_PRECEDENCE
 
         return filter
