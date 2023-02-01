@@ -7,11 +7,11 @@ import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotEmpty
 
 @Entity
-open class User {
+class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     val userId : Long = 0
-    @Column(nullable = false, length = 120, unique = true)
+    @Column(nullable = false, unique = true)
     @get: NotEmpty(message = "{username.required}")
     val username : String = ""
     @Column(nullable = false)

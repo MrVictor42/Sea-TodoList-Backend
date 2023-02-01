@@ -11,7 +11,6 @@ import javax.validation.Valid
 
 @RestController
 @RequestMapping("/user")
-@RequiredArgsConstructor
 class UserController(private val userService : UserService) {
 
     @PostMapping("/save")
@@ -29,10 +28,10 @@ class UserController(private val userService : UserService) {
         return ResponseEntity.ok().body(userService.userList())
     }
 
-    @GetMapping("/current_user")
-    fun getCurrentUser(@RequestParam("username") username : String?) : ResponseEntity<User> {
+    @GetMapping("/current_user/{userId}")
+    fun getCurrentUser(@PathVariable userId : Long) : ResponseEntity<User> {
         return try {
-            ResponseEntity.ok().body(userService.getCurrentUser(username!!))
+            ResponseEntity.ok().body(userService.getCurrentUser(userId))
         } catch (runtime : RuntimeException) {
             ResponseEntity.badRequest().body(null)
         }
@@ -46,6 +45,17 @@ class UserController(private val userService : UserService) {
             ResponseEntity.badRequest().body(null)
         }
     }
+
+    @DeleteMapping("/delete/{userId}")
+    fun deleteUser(@PathVariable userId : Long) : ResponseEntity<Any> {
+        return try {
+            userService.delete(userId)
+            ResponseEntity.noContent().build()
+        } catch (runtimeException : RuntimeException) {
+            ResponseEntity.badRequest().body(null)
+        }
+    }
+
 
 //    @PutMapping("/update/password/{registration}/new_password")
 //    fun updatePasswordAuthenticated(@PathVariable registration : Long, @RequestBody new_password : String) {

@@ -4,8 +4,10 @@ import io.github.mrvictor42.todolist.backend.exception.CustomMessageException
 import io.github.mrvictor42.todolist.backend.model.User
 import io.github.mrvictor42.todolist.backend.repository.UserRepository
 import lombok.RequiredArgsConstructor
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.web.server.ResponseStatusException
 import java.util.*
 
 @Service
@@ -35,9 +37,9 @@ class UserService(
     }
 
     fun update(user: User) : User {
-        val existsUser = userRepository.existsByUsername(user.username)
+        val exists = userRepository.existsByUserId(user.userId)
 
-        if(existsUser) {
+        if(exists) {
             return userRepository.save(user)
         } else {
             throw CustomMessageException("Usuário Não Encontrado")
@@ -45,11 +47,11 @@ class UserService(
     }
 
     @Throws(CustomMessageException::class)
-    fun getCurrentUser(username: String) : User {
-        val exists : Boolean = userRepository.existsByUsername(username)
+    fun getCurrentUser(userId : Long) : User {
+        val exists : Boolean = userRepository.existsByUserId(userId)
 
         if(exists) {
-            return userRepository.findByUsername(username)
+            return userRepository.findById(userId).orElseThrow()
         } else {
             throw CustomMessageException("Usuário Não Encontrado")
         }
@@ -58,9 +60,14 @@ class UserService(
     fun countUser() : Long {
         return userRepository.count()
     }
-//
     fun userList() : List<User> {
         return userRepository.findAll()
+    }
+
+    fun delete(userId: Long) {
+        userRepository.findById(userId).map { user ->
+            userRepository.deleteById(user.userId)
+        }.orElseThrow()
     }
 //
 //    @Throws(ObjectAlreadyExistsException::class)
