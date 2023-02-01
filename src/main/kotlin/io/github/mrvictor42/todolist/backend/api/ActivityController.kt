@@ -46,7 +46,7 @@ class ActivityController(private val activityService: ActivityService) {
     }
 
     @DeleteMapping("/delete/{activityId}")
-    fun deleteUser(@PathVariable activityId : Long) : ResponseEntity<Any> {
+    fun delete(@PathVariable activityId : Long) : ResponseEntity<Any> {
         return try {
             activityService.delete(activityId)
             ResponseEntity.noContent().build()
