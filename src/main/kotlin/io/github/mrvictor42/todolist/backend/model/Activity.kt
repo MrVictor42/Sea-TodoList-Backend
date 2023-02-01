@@ -10,6 +10,6 @@ class Activity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     val activityId : Long = 0
     @Column(nullable = false, unique = true)
-    @get: NotEmpty(message = "{description.required}")
-    val description : String = ""
+    @get: NotEmpty(message = "{title.required}")
+    val title : String = ""
 }

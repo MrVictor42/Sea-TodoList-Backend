@@ -57,9 +57,6 @@ class UserService(
         }
     }
 
-    fun countUser() : Long {
-        return userRepository.count()
-    }
     fun userList() : List<User> {
         return userRepository.findAll()
     }
