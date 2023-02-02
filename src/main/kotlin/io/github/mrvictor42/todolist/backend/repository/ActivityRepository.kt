@@ -5,4 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 interface ActivityRepository : JpaRepository<Activity, Long> {
     fun existsByActivityId(activityId : Long) : Boolean
+    fun findAllByUser_UserId(userId : Long) : List<Activity>
 }

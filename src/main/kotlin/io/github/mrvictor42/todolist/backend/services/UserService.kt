@@ -89,4 +89,20 @@ class UserService(
     fun countUser() : Long {
         return userRepository.count()
     }
+
+    @Throws(CustomMessageException::class)
+    fun existsUser(userId : Long) : Boolean {
+        val exists : Boolean = userRepository.existsById(userId)
+
+        return if(exists) {
+            true
+        } else {
+            throw CustomMessageException("Usuário Não Encontrado")
+        }
+    }
+
+    @Throws(CustomMessageException::class)
+    fun getUserById(userId : Long) : User {
+        return userRepository.findByUserId(userId)
+    }
 }

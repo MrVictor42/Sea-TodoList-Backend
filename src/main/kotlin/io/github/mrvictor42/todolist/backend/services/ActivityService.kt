@@ -36,8 +36,8 @@ class ActivityService(private val activityRepository : ActivityRepository) {
         }
     }
 
-    fun getActivityList() : List<Activity> {
-        return activityRepository.findAll()
+    fun getActivityList(userId : Long) : List<Activity> {
+        return activityRepository.findAllByUser_UserId(userId)
     }
 
     fun delete(activityId: Long) {
