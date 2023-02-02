@@ -1,9 +1,13 @@
 package io.github.mrvictor42.todolist.backend.api
 
+import io.github.mrvictor42.todolist.backend.exception.UserNotFoundException
+import io.github.mrvictor42.todolist.backend.exception.UserRegisteredException
 import io.github.mrvictor42.todolist.backend.model.User
 import io.github.mrvictor42.todolist.backend.services.UserService
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.server.ResponseStatusException
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder
 import java.net.URI
 import javax.validation.Valid
@@ -17,8 +21,8 @@ class UserController(private val userService : UserService) {
         return try {
             val uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/save").toUriString())
             ResponseEntity.created(uri).body(userService.save(user))
-        } catch (runtime : RuntimeException) {
-            ResponseEntity.badRequest().body(null)
+        } catch (exception : UserRegisteredException) {
+            throw ResponseStatusException(HttpStatus.BAD_REQUEST, exception.message)
         }
     }
 
@@ -31,8 +35,8 @@ class UserController(private val userService : UserService) {
     fun getCurrentUser(@RequestParam("username") username : String) : ResponseEntity<User> {
         return try {
             ResponseEntity.ok().body(userService.getCurrentUser(username))
-        } catch (runtime : RuntimeException) {
-            ResponseEntity.badRequest().body(null)
+        } catch (exception : UserNotFoundException) {
+            throw ResponseStatusException(HttpStatus.NOT_FOUND, exception.message)
         }
     }
 
@@ -54,15 +58,4 @@ class UserController(private val userService : UserService) {
             ResponseEntity.badRequest().body(null)
         }
     }
-
-
-//    @PutMapping("/update/password/{registration}/new_password")
-//    fun updatePasswordAuthenticated(@PathVariable registration : Long, @RequestBody new_password : String) {
-//        try {
-//            ResponseEntity.ok().body(userService.changePasswordAuthenticated(registration, new_password))
-//        } catch (runtimeException : RuntimeException) {
-//            ResponseEntity.badRequest().body(null)
-//            throw UserNotFoundException("Usuário Não Atualizado")
-//        }
-//    }
 }
