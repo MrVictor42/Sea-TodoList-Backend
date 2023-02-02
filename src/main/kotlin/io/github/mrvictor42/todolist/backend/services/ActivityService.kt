@@ -2,6 +2,7 @@ package io.github.mrvictor42.todolist.backend.services
 
 import io.github.mrvictor42.todolist.backend.exception.CustomMessageException
 import io.github.mrvictor42.todolist.backend.model.Activity
+import io.github.mrvictor42.todolist.backend.model.User
 import io.github.mrvictor42.todolist.backend.repository.ActivityRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -10,13 +11,13 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 class ActivityService(private val activityRepository : ActivityRepository) {
 
-    @Throws(CustomMessageException::class)
     fun save(activity: Activity) : Activity {
         return activityRepository.save(activity)
     }
 
+    @Throws(CustomMessageException::class)
     fun update(activity: Activity) : Activity {
-        val exists = activityRepository.existsByActivityId(activity.activityId)
+        val exists : Boolean = activityRepository.existsByActivityId(activity.activityId)
 
         if(exists) {
             return activityRepository.save(activity)
@@ -44,5 +45,20 @@ class ActivityService(private val activityRepository : ActivityRepository) {
         activityRepository.findById(activityId).map { activity ->
             activityRepository.deleteById(activity.activityId)
         }.orElseThrow()
+    }
+
+    @Throws(CustomMessageException::class)
+    fun existsActivity(activityId : Long) : Boolean {
+        val exists : Boolean = activityRepository.existsById(activityId)
+
+        return if(exists) {
+            true
+        } else {
+            throw CustomMessageException("Atividade Não Encontrada")
+        }
+    }
+
+    fun getActivityById(activityId : Long) : Activity {
+        return activityRepository.findByActivityId(activityId)
     }
 }

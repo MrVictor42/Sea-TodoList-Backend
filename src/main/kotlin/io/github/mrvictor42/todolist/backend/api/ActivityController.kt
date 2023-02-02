@@ -6,8 +6,6 @@ import io.github.mrvictor42.todolist.backend.model.User
 import io.github.mrvictor42.todolist.backend.dto.ActivityDTO
 import io.github.mrvictor42.todolist.backend.services.ActivityService
 import io.github.mrvictor42.todolist.backend.services.UserService
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -19,8 +17,6 @@ import javax.validation.Valid
 @RestController
 @RequestMapping("/activity")
 class ActivityController(private val activityService: ActivityService, private val userService : UserService) {
-
-    val log: Logger = LoggerFactory.getLogger(this.javaClass)
 
     @PostMapping("/save")
     fun save(@Valid @RequestBody activityDto : ActivityDTO) {
@@ -51,7 +47,7 @@ class ActivityController(private val activityService: ActivityService, private v
     fun update(@Valid @RequestBody activity: Activity) : ResponseEntity<Activity> {
         return try {
             ResponseEntity.ok().body(activityService.update(activity))
-        } catch (runtimeException : RuntimeException) {
+        } catch (exception : CustomMessageException) {
             ResponseEntity.badRequest().body(null)
         }
     }
@@ -60,7 +56,7 @@ class ActivityController(private val activityService: ActivityService, private v
     fun getCurrentActivity(@PathVariable activityId : Long) : ResponseEntity<Activity> {
         return try {
             ResponseEntity.ok().body(activityService.getCurrentActivity(activityId))
-        } catch (runtime : RuntimeException) {
+        } catch (exception : CustomMessageException) {
             ResponseEntity.badRequest().body(null)
         }
     }
@@ -75,7 +71,7 @@ class ActivityController(private val activityService: ActivityService, private v
         return try {
             activityService.delete(activityId)
             ResponseEntity.noContent().build()
-        } catch (runtimeException : RuntimeException) {
+        } catch (exception : CustomMessageException) {
             ResponseEntity.badRequest().body(null)
         }
     }

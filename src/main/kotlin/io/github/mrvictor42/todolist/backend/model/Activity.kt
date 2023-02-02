@@ -1,5 +1,7 @@
 package io.github.mrvictor42.todolist.backend.model
 
+import org.hibernate.annotations.OnDelete
+import org.hibernate.annotations.OnDeleteAction
 import javax.persistence.*
 import javax.validation.constraints.NotEmpty
 
@@ -18,4 +20,7 @@ class Activity {
     @OneToOne(fetch = FetchType.LAZY, optional = false, cascade = [(CascadeType.ALL)])
     @JoinColumn(name = "user_id", nullable = false)
     var user : User = User()
+    @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.LAZY, mappedBy = "activity")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    val tasks : MutableList<Task> = mutableListOf()
 }

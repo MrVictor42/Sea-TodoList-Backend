@@ -38,7 +38,7 @@ class UserService(
 
     @Throws(CustomMessageException::class)
     fun update(user: User) : User {
-        val exists = userRepository.existsByUsername(user.username)
+        val exists : Boolean = userRepository.existsByUsername(user.username)
 
         if(exists) {
             return userRepository.save(user)
@@ -101,7 +101,6 @@ class UserService(
         }
     }
 
-    @Throws(CustomMessageException::class)
     fun getUserById(userId : Long) : User {
         return userRepository.findByUserId(userId)
     }
