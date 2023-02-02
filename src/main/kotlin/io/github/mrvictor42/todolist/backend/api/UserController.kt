@@ -1,7 +1,6 @@
 package io.github.mrvictor42.todolist.backend.api
 
-import io.github.mrvictor42.todolist.backend.exception.UserNotFoundException
-import io.github.mrvictor42.todolist.backend.exception.UserRegisteredException
+import io.github.mrvictor42.todolist.backend.exception.CustomMessageException
 import io.github.mrvictor42.todolist.backend.model.User
 import io.github.mrvictor42.todolist.backend.services.UserService
 import org.springframework.http.HttpStatus
@@ -21,7 +20,7 @@ class UserController(private val userService : UserService) {
         return try {
             val uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/save").toUriString())
             ResponseEntity.created(uri).body(userService.save(user))
-        } catch (exception : UserRegisteredException) {
+        } catch (exception : CustomMessageException) {
             throw ResponseStatusException(HttpStatus.BAD_REQUEST, exception.message)
         }
     }
@@ -35,7 +34,7 @@ class UserController(private val userService : UserService) {
     fun getCurrentUser(@RequestParam("username") username : String) : ResponseEntity<User> {
         return try {
             ResponseEntity.ok().body(userService.getCurrentUser(username))
-        } catch (exception : UserNotFoundException) {
+        } catch (exception : CustomMessageException) {
             throw ResponseStatusException(HttpStatus.NOT_FOUND, exception.message)
         }
     }
@@ -44,7 +43,7 @@ class UserController(private val userService : UserService) {
     fun updateUser(@Valid @RequestBody user : User) : ResponseEntity<User> {
         return try {
             ResponseEntity.ok().body(userService.update(user))
-        } catch (runtimeException : RuntimeException) {
+        } catch (exception : CustomMessageException) {
             ResponseEntity.badRequest().body(null)
         }
     }
@@ -54,7 +53,7 @@ class UserController(private val userService : UserService) {
         return try {
             userService.delete(userId)
             ResponseEntity.noContent().build()
-        } catch (runtimeException : RuntimeException) {
+        } catch (runtimeException : CustomMessageException) {
             ResponseEntity.badRequest().body(null)
         }
     }

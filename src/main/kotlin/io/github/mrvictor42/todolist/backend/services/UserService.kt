@@ -32,11 +32,11 @@ class UserService(
             } else {
                 // Nothing to do
             }
-
             return userRepository.save(user)
         }
     }
 
+    @Throws(CustomMessageException::class)
     fun update(user: User) : User {
         val exists = userRepository.existsByUsername(user.username)
 
@@ -65,14 +65,16 @@ class UserService(
     fun delete(userId: Long) {
         userRepository.findById(userId).map { user ->
             userRepository.deleteById(user.userId)
-        }.orElseThrow()
+        }.orElseThrow {
+            throw CustomMessageException("Erro ao Deletar o Usuário, Tente Novamente!")
+        }
     }
 
     @Throws(CustomMessageException::class)
     override fun loadUserByUsername(username: String): UserDetails {
-        val userExists : Boolean = userRepository.existsByUsername(username)
+        val exists : Boolean = userRepository.existsByUsername(username)
 
-        if(userExists) {
+        if(exists) {
             val user : User = userRepository.findByUsername(username)
             val authorities : MutableList<SimpleGrantedAuthority> = mutableListOf()
 
