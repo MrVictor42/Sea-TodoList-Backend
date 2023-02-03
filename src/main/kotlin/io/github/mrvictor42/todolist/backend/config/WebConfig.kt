@@ -16,7 +16,7 @@ class WebConfig {
         val all = listOf("*")
         val corsConfiguration = CorsConfiguration()
 
-        corsConfiguration.allowedOrigins = listOf("http://localhost:4200/")
+        corsConfiguration.allowedOrigins = listOf("https://sea-todo-list.herokuapp.com/")
         corsConfiguration.allowedHeaders = all
         corsConfiguration.allowedMethods = all
         corsConfiguration.allowCredentials = true

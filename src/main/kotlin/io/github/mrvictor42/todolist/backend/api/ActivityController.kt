@@ -34,7 +34,6 @@ class ActivityController(private val activityService: ActivityService, private v
                 activity.user = user
                 activity.title = activityDto.title
                 activity.description = activityDto.description
-                activity.status = "Pendente"
 
                 ResponseEntity.created(uri).body(activityService.save(activity))
             } catch (exception : CustomMessageException) {

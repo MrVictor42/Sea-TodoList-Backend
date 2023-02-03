@@ -14,9 +14,8 @@ class Activity {
     @Column(nullable = false)
     @get: NotEmpty(message = "{description.required}")
     var description : String = ""
-    var status : String = ""
-    @OneToOne(fetch = FetchType.LAZY, optional = false, cascade = [(CascadeType.ALL)])
-    @JoinColumn(name = "user_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     var user : User = User()
     @OneToMany(cascade = [CascadeType.REMOVE])
     val tasks : MutableList<Task> = mutableListOf()

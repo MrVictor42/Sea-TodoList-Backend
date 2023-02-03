@@ -1,6 +1,5 @@
 package io.github.mrvictor42.todolist.backend.model
 
-import com.fasterxml.jackson.annotation.JsonIgnore
 import javax.persistence.*
 import javax.validation.constraints.NotEmpty
 import javax.validation.constraints.NotNull
@@ -14,7 +13,7 @@ class Task {
     @get: NotEmpty(message = "{title.required}")
     var title : String = ""
     @NotNull
-    var status : String = ""
+    var status : Boolean = false
     @ManyToOne
     @JoinColumn(name = "activity_id")
     var activity : Activity = Activity()

@@ -5,6 +5,7 @@ import io.github.mrvictor42.todolist.backend.model.Task
 import io.github.mrvictor42.todolist.backend.repository.TaskRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.util.Optional
 
 @Service
 @Transactional
@@ -44,5 +45,16 @@ class TaskService(private val taskRepository : TaskRepository) {
         taskRepository.findById(taskId).map { task ->
             taskRepository.deleteById(task.taskId)
         }.orElseThrow()
+    }
+
+    fun updateStatusTask(taskId : Long) {
+        val taskFound : Optional<Task> = taskRepository.findById(taskId)
+
+        taskFound.ifPresent { task ->
+            val status : Boolean = task.status
+            task.status = !status
+
+            taskRepository.save(task)
+        }
     }
 }

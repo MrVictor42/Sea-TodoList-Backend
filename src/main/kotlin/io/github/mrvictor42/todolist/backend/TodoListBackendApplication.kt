@@ -34,8 +34,8 @@ class TodoListBackendApplication {
 	private fun populateDb(userService : UserService) {
 		val user = User()
 
-		user.username = "admin"
-		user.password = "Bgatahkei42@"
+		user.username = "convidado"
+		user.password = "convidado42"
 		user.name = "Admin"
 		user.email = "admin@gmail.com"
 

@@ -27,4 +27,6 @@ class User {
     @get: NotBlank(message = "{email.required}")
     var email : String = ""
     var role : String? = null
+    @OneToMany(cascade = [CascadeType.REMOVE])
+    val activies : MutableList<Activity> = mutableListOf()
 }

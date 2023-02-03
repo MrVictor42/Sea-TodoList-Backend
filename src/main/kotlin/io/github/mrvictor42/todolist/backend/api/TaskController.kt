@@ -6,12 +6,11 @@ import io.github.mrvictor42.todolist.backend.model.Activity
 import io.github.mrvictor42.todolist.backend.model.Task
 import io.github.mrvictor42.todolist.backend.services.ActivityService
 import io.github.mrvictor42.todolist.backend.services.TaskService
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
@@ -27,8 +26,6 @@ import javax.validation.Valid
 @RequestMapping("/task")
 class TaskController(private val taskService: TaskService, private val activityService: ActivityService) {
 
-    val log: Logger = LoggerFactory.getLogger(this.javaClass)
-
     @PostMapping("/save")
     fun save(@Valid @RequestBody taskDto : TaskDTO) {
         val existsActivity : Boolean = activityService.existsActivity(taskDto.activityId)
@@ -43,7 +40,7 @@ class TaskController(private val taskService: TaskService, private val activityS
                  )
 
                 task.activity = activity
-                task.status = "Pendente"
+                task.status = false
                 task.title = taskDto.title
 
                 ResponseEntity.created(uri).body(taskService.save(task))
@@ -84,5 +81,10 @@ class TaskController(private val taskService: TaskService, private val activityS
         } catch (exception : CustomMessageException) {
             ResponseEntity.badRequest().body(null)
         }
+    }
+
+    @PatchMapping("/status/{taskId}")
+    fun updateStatus(@PathVariable taskId: Long) {
+        taskService.updateStatusTask(taskId)
     }
 }
