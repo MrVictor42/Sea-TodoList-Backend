@@ -6,6 +6,8 @@ import io.github.mrvictor42.todolist.backend.model.Activity
 import io.github.mrvictor42.todolist.backend.model.Task
 import io.github.mrvictor42.todolist.backend.services.ActivityService
 import io.github.mrvictor42.todolist.backend.services.TaskService
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -24,6 +26,8 @@ import javax.validation.Valid
 @RestController
 @RequestMapping("/task")
 class TaskController(private val taskService: TaskService, private val activityService: ActivityService) {
+
+    val log: Logger = LoggerFactory.getLogger(this.javaClass)
 
     @PostMapping("/save")
     fun save(@Valid @RequestBody taskDto : TaskDTO) {
@@ -67,9 +71,9 @@ class TaskController(private val taskService: TaskService, private val activityS
         }
     }
 
-    @GetMapping("/list/{taskId}")
-    fun getTaskList(@PathVariable taskId : Long) : ResponseEntity<List<Task>> {
-        return ResponseEntity.ok().body(taskService.getTaskList(taskId))
+    @GetMapping("/list/{activityId}")
+    fun getTaskList(@PathVariable activityId : Long) : ResponseEntity<List<Task>> {
+        return ResponseEntity.ok().body(taskService.getTaskList(activityId))
     }
 
     @DeleteMapping("/delete/{taskId}")

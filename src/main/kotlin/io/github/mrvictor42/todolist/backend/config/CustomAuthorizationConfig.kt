@@ -38,8 +38,11 @@ class CustomAuthorizationConfig : OncePerRequestFilter() {
                     val username : String = decodeJWT.subject
 
                     val authenticationToken = UsernamePasswordAuthenticationToken(username, null, null)
+
                     SecurityContextHolder.getContext().authentication = authenticationToken
                     filterChain.doFilter(request, response)
+
+                    return
                 } catch (exception : Exception) {
                     response.setHeader("error", exception.message)
                     response.status = FORBIDDEN.value()

@@ -21,7 +21,7 @@ class TaskService(private val taskRepository : TaskRepository) {
         if(exists) {
             return taskRepository.save(task)
         } else {
-            throw CustomMessageException("Atividade Não Encontrada")
+            throw CustomMessageException("Tarefa Não Encontrada")
         }
     }
 
