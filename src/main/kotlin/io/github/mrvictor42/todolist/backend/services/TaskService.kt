@@ -1,6 +1,7 @@
 package io.github.mrvictor42.todolist.backend.services
 
 import io.github.mrvictor42.todolist.backend.exception.CustomMessageException
+import io.github.mrvictor42.todolist.backend.model.Activity
 import io.github.mrvictor42.todolist.backend.model.Task
 import io.github.mrvictor42.todolist.backend.repository.TaskRepository
 import org.springframework.stereotype.Service
@@ -31,7 +32,7 @@ class TaskService(private val taskRepository : TaskRepository) {
         val exists : Boolean = taskRepository.existsByTaskId(taskId)
 
         if(exists) {
-            return taskRepository.findById(taskId).orElseThrow()
+            return taskRepository.findByTaskId(taskId)
         } else {
             throw CustomMessageException("Atividade Não Encontrada")
         }
@@ -44,7 +45,7 @@ class TaskService(private val taskRepository : TaskRepository) {
     fun delete(taskId: Long) {
         taskRepository.findById(taskId).map { task ->
             taskRepository.deleteById(task.taskId)
-        }.orElseThrow()
+        }
     }
 
     fun updateStatusTask(taskId : Long) {

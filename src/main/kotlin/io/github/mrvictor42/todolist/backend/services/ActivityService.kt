@@ -31,7 +31,7 @@ class ActivityService(private val activityRepository : ActivityRepository) {
         val exists : Boolean = activityRepository.existsByActivityId(activityId)
 
         if(exists) {
-            return activityRepository.findById(activityId).orElseThrow()
+            return activityRepository.findByActivityId(activityId)
         } else {
             throw CustomMessageException("Atividade Não Encontrada")
         }
@@ -44,7 +44,7 @@ class ActivityService(private val activityRepository : ActivityRepository) {
     fun delete(activityId: Long) {
         activityRepository.findById(activityId).map { activity ->
             activityRepository.deleteById(activity.activityId)
-        }.orElseThrow()
+        }
     }
 
     @Throws(CustomMessageException::class)
