@@ -4,8 +4,7 @@ HELP.md
 src/main/resources/application-development.properties
 src/main/resources/application-prod.properties
 .gradle/
-build
-
+:
 ### STS ###
 .apt_generated
 .classpath

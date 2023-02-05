@@ -8,7 +8,8 @@ plugins {
 	kotlin("plugin.jpa") version "1.6.21"
 }
 
-group = "io.github.mrvictor42"
+val mainClassName : String = "io.github.mrvictor42.todolist.backend.TodoListBackendApplicationKt"
+group = "io.github.mrvictor42.backend"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
@@ -46,12 +47,15 @@ tasks.withType<KotlinCompile> {
 	}
 }
 
-tasks.withType<Jar> {
-	manifest {
-		attributes["TodoListBackendApplication"] = "io.github.mrvictor42.todolist.backend"
-	}
-}
-
 tasks.withType<Test> {
 	useJUnitPlatform()
+}
+
+tasks.withType<Jar> {
+
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+	manifest.attributes.apply {
+		put("Class-Path", configurations.runtimeClasspath.get().asPath)
+		put("Main-Class", mainClassName)
+	}
 }
