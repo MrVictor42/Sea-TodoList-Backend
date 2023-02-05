@@ -51,11 +51,11 @@ tasks.withType<Test> {
 	useJUnitPlatform()
 }
 
-tasks.withType<Jar> {
-
-	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-	manifest.attributes.apply {
-		put("Class-Path", configurations.runtimeClasspath.get().asPath)
-		put("Main-Class", mainClassName)
-	}
-}
+//tasks.withType<Jar> {
+//
+//	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+//	manifest.attributes.apply {
+//		put("Class-Path", configurations.runtimeClasspath.get().asPath)
+//		put("Main-Class", mainClassName)
+//	}
+//}
