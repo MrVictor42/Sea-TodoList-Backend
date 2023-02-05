@@ -32,6 +32,7 @@ dependencies {
 	implementation("com.auth0:java-jwt:3.19.2")
 	implementation("org.springframework.boot:spring-boot-starter-validation:2.7.0")
 	compileOnly("org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.6.8")
+	implementation("com.heroku:webapp-runner:9.0.31.0")
 	implementation("org.postgresql:postgresql")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	runtimeOnly("mysql:mysql-connector-java")
@@ -42,6 +43,12 @@ tasks.withType<KotlinCompile> {
 	kotlinOptions {
 		freeCompilerArgs = listOf("-Xjsr305=strict")
 		jvmTarget = "17"
+	}
+}
+
+tasks.withType<Jar> {
+	manifest {
+		attributes["TodoListBackendApplication"] = "io.github.mrvictor42.todolist.backend"
 	}
 }
 
