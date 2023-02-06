@@ -1,1 +1,0 @@
-web: java -jar build/libs/TodoList-Backend-SNAPSHOT.jar --server.port=$PORT
